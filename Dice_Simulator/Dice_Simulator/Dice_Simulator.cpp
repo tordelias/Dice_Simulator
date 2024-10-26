@@ -2,6 +2,9 @@
 #include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include "Core/Camera.h"
+#include "Core/Shaders/shaderClass.h"
+#include <memory>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);  // Dynamic window size
 void processInput(GLFWwindow* window);
@@ -36,12 +39,25 @@ int main()
 
     glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
 
-    // Main loop
+
+    // ---------------------------------------------------------------------------------------------------------------------------
+    //                                                        Camera & Shader
+    // ---------------------------------------------------------------------------------------------------------------------------
+    std::shared_ptr<Shader> shaderProgram = std::make_shared<Shader>("Core/Shaders/default.vert", "Core/Shaders/default.frag");
+    shaderProgram->Activate();
+    std::shared_ptr<Camera> camera = std::make_shared<Camera>(SCR_WIDTH, SCR_HEIGHT, glm::vec3(0.0f, 40.0f, 0.0f));
+
+    // ---------------------------------------------------------------------------------------------------------------------------
+    //                                                        Main Loop
+    // ---------------------------------------------------------------------------------------------------------------------------
     while (!glfwWindowShouldClose(window))
     {
         processInput(window);
 
+        camera->Inputs(window);
 
+        //Set render distance and FOV
+        glm::mat4 viewproj = camera->Matrix(45.0f, 0.1f, 1000.0f, shaderProgram, "camMatrix");
 
 
 

@@ -48,6 +48,12 @@
     <ClCompile Include="Core\Shaders\VBO.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Texture\Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stb.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component\Mesh.h">
@@ -77,5 +83,14 @@
     <ClInclude Include="Core\Shaders\VBO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Texture\Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Core\Shaders\default.frag" />
+    <None Include="Core\Shaders\default.vert" />
+    <None Include="default.frag" />
+    <None Include="default.vert" />
   </ItemGroup>
 </Project>

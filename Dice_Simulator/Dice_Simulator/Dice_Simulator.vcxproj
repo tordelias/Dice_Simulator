@@ -147,6 +147,8 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Component\Mesh.cpp" />
     <ClCompile Include="Manager\EntityManager.cpp" />
+    <ClCompile Include="stb.cpp" />
+    <ClCompile Include="Texture\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component\Component.h" />
@@ -158,6 +160,13 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Component\Mesh.h" />
     <ClInclude Include="Manager\EntityManager.h" />
+    <ClInclude Include="Texture\Texture.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Core\Shaders\default.frag" />
+    <None Include="Core\Shaders\default.vert" />
+    <None Include="default.frag" />
+    <None Include="default.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

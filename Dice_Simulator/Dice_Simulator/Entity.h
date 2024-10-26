@@ -1,4 +1,10 @@
 #pragma once
+#include <memory>
+#include <iostream>
+#include "Core/Shaders/EBO.h"
+#include "Core/Shaders/VAO.h"
+#include "Core/Shaders/VBO.h"
+
 class Entity
 {
 	int EntityID;
@@ -14,6 +20,10 @@ public:
 	T& AddComponent(TArgs&&... args);
 	template <typename T>
 	T& GetComponent() const;
+	
+	std::shared_ptr<VAO> vao;
+	std::shared_ptr<VBO> vbo;
+	std::shared_ptr<EBO> ebo;
 };
 
 template<typename T>
