@@ -136,8 +136,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Component\Component.cpp" />
+    <ClCompile Include="Core\Camera.cpp" />
+    <ClCompile Include="Core\Shaders\EBO.cpp" />
+    <ClCompile Include="Core\Shaders\shaderClass.cpp" />
+    <ClCompile Include="Core\Shaders\VAO.cpp" />
+    <ClCompile Include="Core\Shaders\VBO.cpp" />
     <ClCompile Include="Dependency\includes\glad\glad.c" />
     <ClCompile Include="Dice_Simulator.cpp" />
+    <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="Component\Mesh.cpp" />
+    <ClCompile Include="Manager\EntityManager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Component\Component.h" />
+    <ClInclude Include="Core\Camera.h" />
+    <ClInclude Include="Core\Shaders\EBO.h" />
+    <ClInclude Include="Core\Shaders\shaderClass.h" />
+    <ClInclude Include="Core\Shaders\VAO.h" />
+    <ClInclude Include="Core\Shaders\VBO.h" />
+    <ClInclude Include="Entity.h" />
+    <ClInclude Include="Component\Mesh.h" />
+    <ClInclude Include="Manager\EntityManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
