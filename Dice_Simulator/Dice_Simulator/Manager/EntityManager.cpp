@@ -72,16 +72,15 @@ bool EntityManager::HasNoEntities()
     return false;
 }
 
-void EntityManager::AddEntity(Entity& entity)
+void EntityManager::AddEntity(std::shared_ptr<Entity>& entity)
 {
-    if (entity.GetComponent<MeshComponent>() != nullptr)
+    if (entity->GetComponent<MeshComponent>() != nullptr)
     {
         initalizeMesh(entity);
-        //entity.initalize();
     }
-    entity.SetEntityID(EntityCount);
+    entity->SetEntityID(EntityCount);
     ++EntityCount;
-    entities.push_back(&entity);
+	entities.push_back(entity.get());
 }
 
 std::vector<Entity*> EntityManager::GetEntities() const
@@ -89,31 +88,30 @@ std::vector<Entity*> EntityManager::GetEntities() const
     return entities;
 }
 
-void EntityManager::initalizeMesh(Entity& entity)
+void EntityManager::initalizeMesh(std::shared_ptr<Entity>& entity)
 {
-    // Get the MeshComponent from the entity
-    MeshComponent* meshComponent = entity.GetComponent<MeshComponent>();
+    MeshComponent* meshComponent = entity->GetComponent<MeshComponent>();
     if (!meshComponent) {
         std::cerr << "Entity does not have a MeshComponent!" << std::endl;
         return;
     }
 
     // Binding the VAO
-    entity.vao->Bind();
-    entity.vbo->Bind();
+    entity->vao->Bind();
+    entity->vbo->Bind();
 
     glBufferData(GL_ARRAY_BUFFER, meshComponent->vertices.size() * sizeof(Vertex), meshComponent->vertices.data(), GL_STATIC_DRAW);
 
-    entity.vao->LinkAttrib(*entity.vbo, 0, 3, GL_FLOAT, sizeof(Vertex), (void*)offsetof(Vertex, x)); // Position
-    entity.vao->LinkAttrib(*entity.vbo, 1, 3, GL_FLOAT, sizeof(Vertex), (void*)offsetof(Vertex, r)); // Color
-    entity.vao->LinkAttrib(*entity.vbo, 2, 2, GL_FLOAT, sizeof(Vertex), (void*)offsetof(Vertex, u)); // TexCoords
+    entity->vao->LinkAttrib(*entity->vbo, 0, 3, GL_FLOAT, sizeof(Vertex), (void*)offsetof(Vertex, x)); // Position
+    entity->vao->LinkAttrib(*entity->vbo, 1, 3, GL_FLOAT, sizeof(Vertex), (void*)offsetof(Vertex, r)); // Color
+    entity->vao->LinkAttrib(*entity->vbo, 2, 2, GL_FLOAT, sizeof(Vertex), (void*)offsetof(Vertex, u)); // TexCoords
 
-    entity.ebo->Bind();
+    entity->ebo->Bind();
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, meshComponent->indices.size() * sizeof(unsigned int), meshComponent->indices.data(), GL_STATIC_DRAW);
 
     // Unbinding VAO, VBO, EBO
-    entity.vao->Unbind();
-    entity.vbo->Unbind();
-    entity.ebo->Unbind();
-
+    entity->vao->Unbind();
+    entity->vbo->Unbind();
+    entity->ebo->Unbind();
 }
+

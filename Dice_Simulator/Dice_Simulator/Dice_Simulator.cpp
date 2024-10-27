@@ -3,7 +3,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "Resources/Camera/Camera.h"
-#include "Core/Shaders/shaderClass.h"
+#include "Resources/Shaders/shaderClass.h"
 #include <memory>
 #include <string>
 
@@ -57,9 +57,9 @@ int main()
 	std::shared_ptr<EntityManager> manager = std::make_shared<EntityManager>();
 
 	std::shared_ptr<Entity> entity = std::make_shared<Entity>();
-	entity->AddComponent<TransformComponent>(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
+	entity->AddComponent<TransformComponent>(glm::vec3(0.0f, 0.0f, -5.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
 	entity->AddComponent<MeshComponent>("Cube", glm::vec3(1.0f, 1.0f, 1.0f), "Texture/Textures/beako.png");
-	manager->AddEntity(*entity);
+	manager->AddEntity(entity);
 
 
     // ---------------------------------------------------------------------------------------------------------------------------
@@ -74,15 +74,6 @@ int main()
     // ---------------------------------------------------------------------------------------------------------------------------
     while (!glfwWindowShouldClose(window))
     {
-        class Texture
-        {
-									int ID; 
-        public:
-									unsigned int texture;
-
-									Texture(const char* texture1, Shader& shaderProgram);
-
-        };
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -90,6 +81,7 @@ int main()
         camera->Inputs(window);
         glm::mat4 viewproj = camera->Matrix(45.0f, 0.1f, 1000.0f, *shaderProgram, "camMatrix");        //Set render distance and FOV
     // ---------------------------------------------------------------------------------------------------------------------------
+       
         glBindTexture(GL_TEXTURE_2D, texture.texture);
 		manager->Render(shaderProgram, viewproj);
 

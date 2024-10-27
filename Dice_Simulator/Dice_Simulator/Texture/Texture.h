@@ -1,6 +1,6 @@
 #pragma once
 #include "stb/stb_image.h"
-#include"../Core/Shaders/shaderClass.h"
+#include"../Resources/Shaders/shaderClass.h"
 #include <string>
 class Texture
 {
