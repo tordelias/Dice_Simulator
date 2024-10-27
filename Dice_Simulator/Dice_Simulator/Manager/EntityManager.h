@@ -4,7 +4,7 @@
 #include <string>
 #include <memory>
 #include <glm/glm.hpp>
-class Shader; 
+class Shader;
 class TransformComponent;
 class EntityManager
 {
@@ -19,9 +19,9 @@ public:
 	std::vector<Entity*> GetEntities() const;
 	unsigned int GetEntityCount() { return EntityCount; };
 
-private: 
+private:
 	void initalizeMesh(Entity& entity);
 	std::vector<Entity*> entities;
-	int EntityCount; 
+	int EntityCount;
 };
 

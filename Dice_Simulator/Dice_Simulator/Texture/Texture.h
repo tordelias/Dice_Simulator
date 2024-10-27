@@ -1,6 +1,7 @@
 #pragma once
 #include "stb/stb_image.h"
 #include"../Core/Shaders/shaderClass.h"
+#include <string>
 class Texture
 {
 	int ID; 

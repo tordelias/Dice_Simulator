@@ -1,15 +1,16 @@
 #pragma once
 #define GLM_ENABLE_EXPERIMENTAL
 #include "EntityManager.h"
-#include "../Core/Shaders/shaderClass.h"
+#include "../Resources/Shaders/shaderClass.h"
 #include "../Component/Component.h"
-#include "../Core/Shaders/EBO.h"
-#include "../Core/Shaders/VAO.h"
-#include "../Core/Shaders/VBO.h"
+#include "../Resources/Shaders/EBO.h"
+#include "../Resources/Shaders/VBO.h"
+#include "../Resources/Shaders/VAO.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/quaternion.hpp>      
 #include <glm/gtx/quaternion.hpp>     
 #include "../Texture/Texture.h"
+#include <glm/gtc/type_ptr.hpp>
 
 
 EntityManager::EntityManager() : EntityCount(0)
@@ -27,7 +28,7 @@ void EntityManager::Update()
 
 void EntityManager::Render(const std::shared_ptr<Shader>& shader, glm::mat4 viewproj)
 {
-    shader->Activate();
+    //shader->Activate();
     for (auto& entity : entities)
     {
         auto meshComponent = entity->GetComponent<MeshComponent>();
@@ -42,8 +43,10 @@ void EntityManager::Render(const std::shared_ptr<Shader>& shader, glm::mat4 view
         glm::mat4 rotationMatrix = glm::toMat4(quaternion);
 
         model = glm::translate(model, transform->position);
-		model = glm::scale(model, transform->scale);
-		model *= rotationMatrix;
+        model = glm::scale(model, transform->scale);
+        model *= rotationMatrix;
+
+        glUniformMatrix4fv(glGetUniformLocation(shader->ID, "camMatrix"), 1, GL_FALSE, glm::value_ptr(viewproj * model));
 
         entity->vao->Bind();
         entity->vbo->Bind();
@@ -66,23 +69,24 @@ void EntityManager::ClearData()
 
 bool EntityManager::HasNoEntities()
 {
-	return false;
+    return false;
 }
 
 void EntityManager::AddEntity(Entity& entity)
 {
-	if (entity.GetComponent<MeshComponent>() != nullptr)
-	{
-		initalizeMesh(entity);
-	}
+    if (entity.GetComponent<MeshComponent>() != nullptr)
+    {
+        initalizeMesh(entity);
+        //entity.initalize();
+    }
     entity.SetEntityID(EntityCount);
-	++EntityCount;
-	entities.push_back(&entity);
+    ++EntityCount;
+    entities.push_back(&entity);
 }
 
 std::vector<Entity*> EntityManager::GetEntities() const
 {
-	return entities;
+    return entities;
 }
 
 void EntityManager::initalizeMesh(Entity& entity)

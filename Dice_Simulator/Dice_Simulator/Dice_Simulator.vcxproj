@@ -149,6 +149,12 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Component\Mesh.cpp" />
     <ClCompile Include="Manager\EntityManager.cpp" />
+    <ClCompile Include="Resources\Camera\Camera.cpp" />
+    <ClCompile Include="Resources\Shaders\EBO.cpp" />
+    <ClCompile Include="Resources\Shaders\shaderClass.cpp" />
+    <ClCompile Include="Resources\Shaders\VAO.cpp" />
+    <ClCompile Include="Resources\Shaders\VBO.cpp" />
+    <ClCompile Include="Resources\Texture\Texture.cpp" />
     <ClCompile Include="stb.cpp" />
     <ClCompile Include="Texture\Texture.cpp" />
   </ItemGroup>
@@ -162,6 +168,12 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Component\Mesh.h" />
     <ClInclude Include="Manager\EntityManager.h" />
+    <ClInclude Include="Resources\Camera\Camera.h" />
+    <ClInclude Include="Resources\Shaders\EBO.h" />
+    <ClInclude Include="Resources\Shaders\shaderClass.h" />
+    <ClInclude Include="Resources\Shaders\VAO.h" />
+    <ClInclude Include="Resources\Shaders\VBO.h" />
+    <ClInclude Include="Resources\Texture\Texture.h" />
     <ClInclude Include="Texture\Texture.h" />
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +181,8 @@
     <None Include="Core\Shaders\default.vert" />
     <None Include="default.frag" />
     <None Include="default.vert" />
+    <None Include="Resources\Shaders\default.frag" />
+    <None Include="Resources\Shaders\default.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

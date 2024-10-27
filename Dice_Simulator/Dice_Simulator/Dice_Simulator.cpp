@@ -2,7 +2,7 @@
 #include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include "Core/Camera.h"
+#include "Resources/Camera/Camera.h"
 #include "Core/Shaders/shaderClass.h"
 #include <memory>
 #include <string>
@@ -48,7 +48,7 @@ int main()
     // ---------------------------------------------------------------------------------------------------------------------------
     //                                                        Camera & Shader
     // ---------------------------------------------------------------------------------------------------------------------------
-    std::shared_ptr<Shader> shaderProgram = std::make_shared<Shader>("Core/Shaders/default.vert", "Core/Shaders/default.frag");
+    std::shared_ptr<Shader> shaderProgram = std::make_shared<Shader>("Resources/Shaders/default.vert", "Resources/Shaders/default.frag");
     shaderProgram->Activate();
     std::shared_ptr<Camera> camera = std::make_shared<Camera>(SCR_WIDTH, SCR_HEIGHT, glm::vec3(0.0f, 2.0f, 0.0f));
     // ---------------------------------------------------------------------------------------------------------------------------
@@ -74,12 +74,21 @@ int main()
     // ---------------------------------------------------------------------------------------------------------------------------
     while (!glfwWindowShouldClose(window))
     {
+        class Texture
+        {
+									int ID; 
+        public:
+									unsigned int texture;
+
+									Texture(const char* texture1, Shader& shaderProgram);
+
+        };
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         processInput(window);
         camera->Inputs(window);
-        glm::mat4 viewproj = camera->Matrix(45.0f, 0.1f, 1000.0f, shaderProgram, "camMatrix");        //Set render distance and FOV
+        glm::mat4 viewproj = camera->Matrix(45.0f, 0.1f, 1000.0f, *shaderProgram, "camMatrix");        //Set render distance and FOV
     // ---------------------------------------------------------------------------------------------------------------------------
         glBindTexture(GL_TEXTURE_2D, texture.texture);
 		manager->Render(shaderProgram, viewproj);

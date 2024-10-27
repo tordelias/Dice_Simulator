@@ -1,9 +1,9 @@
 #pragma once
 #include <memory>
 #include <iostream>
-#include "Core/Shaders/EBO.h"
-#include "Core/Shaders/VAO.h"
-#include "Core/Shaders/VBO.h"
+#include "Resources/Shaders/EBO.h"
+#include "Resources/Shaders/VBO.h"
+#include "Resources/Shaders/VAO.h"
 #include "Component/Component.h"
 #include <unordered_map>
 #include <typeindex>
@@ -30,6 +30,9 @@ public:
     std::shared_ptr<VAO> vao;
     std::shared_ptr<VBO> vbo;
     std::shared_ptr<EBO> ebo;
+
+    void initalize();
+    void render();
 private:
     std::unordered_map<std::type_index, std::unique_ptr<Component>> components;
 };
