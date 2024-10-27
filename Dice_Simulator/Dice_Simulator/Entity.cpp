@@ -1,6 +1,6 @@
 #include "Entity.h"
 
-Entity::Entity()
+Entity::Entity() : vao(std::make_shared<VAO>()), vbo(std::make_shared<VBO>()), ebo(std::make_shared<EBO>()), EntityID(0), components()
 {
 }
 

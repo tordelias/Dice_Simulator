@@ -1,12 +1,21 @@
 #pragma once
 #include <vector>
 #include <glm/glm.hpp>
-class Mesh
+
+struct Vertex
 {
-	std::pair<std::vector<glm::vec3>, std::vector<glm::vec3>> CubeMesh();
-	std::pair<std::vector<glm::vec3>, std::vector<glm::vec3>> SphereMesh();
-	std::pair<std::vector<glm::vec3>, std::vector<glm::vec3>> CylinderMesh();
-	std::pair<std::vector<glm::vec3>, std::vector<glm::vec3>> ConeMesh();
-	std::pair<std::vector<glm::vec3>, std::vector<glm::vec3>> TorusMesh();
+    float x, y, z;       // Position
+    float r, g, b;       // Color
+    float u, v;          // Texture coordinates
+    float normalx, normaly, normalz; // Normals
 };
 
+class Mesh
+{
+public:
+    std::pair<std::vector<Vertex>, std::vector<unsigned int>> CubeMesh(glm::vec3 color);
+    std::pair<std::vector<Vertex>, std::vector<unsigned int>> SphereMesh(glm::vec3 color);
+    std::pair<std::vector<Vertex>, std::vector<unsigned int>> CylinderMesh(glm::vec3 color);
+    std::pair<std::vector<Vertex>, std::vector<unsigned int>> ConeMesh(glm::vec3 color);
+    std::pair<std::vector<Vertex>, std::vector<unsigned int>> TorusMesh(glm::vec3 color);
+};

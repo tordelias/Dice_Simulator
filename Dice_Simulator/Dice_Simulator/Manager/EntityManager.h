@@ -12,14 +12,15 @@ public:
 	EntityManager();
 	~EntityManager();
 	void Update();
-	void Render(const std::shared_ptr<Shader>& Shader, glm::mat4 viewproj, TransformComponent& pos);
+	void Render(const std::shared_ptr<Shader>& Shader, glm::mat4 viewproj);
 	void ClearData();
 	bool HasNoEntities();
-	//Entity& AddEntity(int EntityID);
+	void AddEntity(Entity& entity);
 	std::vector<Entity*> GetEntities() const;
 	unsigned int GetEntityCount() { return EntityCount; };
 
 private: 
+	void initalizeMesh(Entity& entity);
 	std::vector<Entity*> entities;
 	int EntityCount; 
 };

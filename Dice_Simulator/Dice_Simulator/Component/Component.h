@@ -1,12 +1,18 @@
 #pragma once
 #include <glm/glm.hpp>
 #include <vector>
-#include <memory>
+#include <string>
 #include <iostream>
+#include "Mesh.h"
+
 class Component
 {
+public:
+    virtual ~Component() = default;
 };
-struct TransformComponent {
+
+struct TransformComponent : public Component
+{
     glm::vec3 position;
     glm::vec3 rotation;
     glm::vec3 scale;
@@ -15,16 +21,12 @@ struct TransformComponent {
         const glm::vec3& rot = glm::vec3(0.0f),
         const glm::vec3& scl = glm::vec3(1.0f))
         : position(pos), rotation(rot), scale(scl) {}
-
 };
 
-struct MeshComponent {
-	std::vector<glm::vec3> vertices;
-	std::vector<unsigned int> indices;
-	MeshComponent(const std::vector<glm::vec3>& verts = std::vector<glm::vec3>(),
-		const std::vector<unsigned int>& inds = std::vector<unsigned int>())
-		: vertices(verts), indices(inds) {}
+struct MeshComponent : public Component {
+    std::vector<Vertex> vertices;
+    std::vector<unsigned int> indices;
+    std::string TexturePath;
 
-    //needs to add a string for texture and a string for chosen mesh in mesh class
+    MeshComponent(const std::string& figure = "", const glm::vec3& color = glm::vec3(1,1,1), const std::string& texture = "");
 };
-
