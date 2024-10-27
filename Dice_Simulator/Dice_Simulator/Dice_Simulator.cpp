@@ -6,13 +6,13 @@
 #include "Resources/Shaders/shaderClass.h"
 #include <memory>
 #include <string>
+#include "Resources/Window.h"
 
 //includes
 #include "Manager/EntityManager.h"
 #include "Entity.h" 
-#include "Texture/Texture.h"
+#include "Resources/Texture/Texture.h"
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height);  // Dynamic window size
 void processInput(GLFWwindow* window);
 
 const unsigned int SCR_WIDTH = 800;
@@ -20,30 +20,11 @@ const unsigned int SCR_HEIGHT = 800;
 
 int main()
 {
-    glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-    // glfw window creation
-    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Dice Simulator", NULL, NULL);
-    if (window == NULL)
-    {
-        std::cout << "Failed to create GLFW window" << std::endl;
-        glfwTerminate();
-        return -1;
-    }
-    glfwMakeContextCurrent(window);
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-
-    // glad: load all OpenGL function pointers
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    {
-        std::cout << "Failed to initialize GLAD" << std::endl;
-        return -1;
-    }
-
-    glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
+	// ---------------------------------------------------------------------------------------------------------------------------
+	//                                                        Window
+	// ---------------------------------------------------------------------------------------------------------------------------
+	Window window;
+	window.CreateWindow(SCR_WIDTH, SCR_HEIGHT, "Dice Simulator");
 
     // ---------------------------------------------------------------------------------------------------------------------------
     //                                                        Camera & Shader
@@ -65,20 +46,20 @@ int main()
     // ---------------------------------------------------------------------------------------------------------------------------
     //                                                        Textures
     // ---------------------------------------------------------------------------------------------------------------------------
-	Texture texture("Texture/Textures/beako.png", shaderProgram);
+	Texture texture("Resources/Texture/Textures/beako.png", shaderProgram);
 
     glEnable(GL_DEPTH_TEST);
 
     // ---------------------------------------------------------------------------------------------------------------------------
     //                                                        Main Loop
     // ---------------------------------------------------------------------------------------------------------------------------
-    while (!glfwWindowShouldClose(window))
+    while (!glfwWindowShouldClose(window.GetWindow()))
     {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        processInput(window);
-        camera->Inputs(window);
+        processInput(window.GetWindow());
+        camera->Inputs(window.GetWindow());
         glm::mat4 viewproj = camera->Matrix(45.0f, 0.1f, 1000.0f, *shaderProgram, "camMatrix");        //Set render distance and FOV
     // ---------------------------------------------------------------------------------------------------------------------------
        
@@ -89,7 +70,7 @@ int main()
 
 
     // ---------------------------------------------------------------------------------------------------------------------------
-        glfwSwapBuffers(window);
+        glfwSwapBuffers(window.GetWindow());
         glfwPollEvents();
     }
 
@@ -101,9 +82,4 @@ void processInput(GLFWwindow* window)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
-}
-
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
-{
-    glViewport(0, 0, width, height);
 }

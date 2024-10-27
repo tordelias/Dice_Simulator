@@ -149,8 +149,9 @@
     <ClCompile Include="Resources\Shaders\shaderClass.cpp" />
     <ClCompile Include="Resources\Shaders\VAO.cpp" />
     <ClCompile Include="Resources\Shaders\VBO.cpp" />
+    <ClCompile Include="Resources\Texture\Texture.cpp" />
+    <ClCompile Include="Resources\Window.cpp" />
     <ClCompile Include="stb.cpp" />
-    <ClCompile Include="Texture\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component\Component.h" />
@@ -162,7 +163,8 @@
     <ClInclude Include="Resources\Shaders\shaderClass.h" />
     <ClInclude Include="Resources\Shaders\VAO.h" />
     <ClInclude Include="Resources\Shaders\VBO.h" />
-    <ClInclude Include="Texture\Texture.h" />
+    <ClInclude Include="Resources\Texture\Texture.h" />
+    <ClInclude Include="Resources\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="default.frag" />
