@@ -11,10 +11,12 @@
 #include <glm/gtx/quaternion.hpp>     
 #include "../Resources/Texture/Texture.h"
 #include <glm/gtc/type_ptr.hpp>
+#include "../Resources/Texture/Texture.h"
 
 
-EntityManager::EntityManager() : EntityCount(0)
+EntityManager::EntityManager(std::shared_ptr<Shader> shaderprogram) : EntityCount(0)
 {
+	shader = shaderprogram;
 }
 
 EntityManager::~EntityManager()
@@ -26,37 +28,42 @@ void EntityManager::Update()
 }
 
 
-void EntityManager::Render(const std::shared_ptr<Shader>& shader, glm::mat4 viewproj)
+void EntityManager::Render(glm::mat4 viewproj)
 {
-    //shader->Activate();
-    for (auto& entity : entities)
     {
-        auto meshComponent = entity->GetComponent<MeshComponent>();
-        if (meshComponent == nullptr)
-            continue;
+		int textureCount = 0;
+        for (auto& entity : entities)
+        {
+            glBindTexture(GL_TEXTURE_2D, textures[textureCount].texture);
+            auto meshComponent = entity->GetComponent<MeshComponent>();
+            if (meshComponent == nullptr)
+                continue;
 
-        auto transform = entity->GetComponent<TransformComponent>();
-        if (transform == nullptr) continue;
+            auto transform = entity->GetComponent<TransformComponent>();
+            if (transform == nullptr) continue;
 
-        glm::mat4 model = glm::mat4(1.0f);
-        glm::quat quaternion = glm::quat(transform->rotation);
-        glm::mat4 rotationMatrix = glm::toMat4(quaternion);
+            glm::mat4 model = glm::mat4(1.0f);
+            glm::quat quaternion = glm::quat(transform->rotation);
+            glm::mat4 rotationMatrix = glm::toMat4(quaternion);
 
-        model = glm::translate(model, transform->position);
-        model = glm::scale(model, transform->scale);
-        model *= rotationMatrix;
+            model = glm::translate(model, transform->position);
+            model = glm::scale(model, transform->scale);
+            model *= rotationMatrix;
 
-        glUniformMatrix4fv(glGetUniformLocation(shader->ID, "camMatrix"), 1, GL_FALSE, glm::value_ptr(viewproj * model));
+            glUniformMatrix4fv(glGetUniformLocation(shader->ID, "camMatrix"), 1, GL_FALSE, glm::value_ptr(viewproj * model));
 
-        entity->vao->Bind();
-        entity->vbo->Bind();
-        entity->ebo->Bind();
+            entity->vao->Bind();
+            entity->vbo->Bind();
+            entity->ebo->Bind();
 
-        glDrawElements(GL_TRIANGLES, meshComponent->indices.size(), GL_UNSIGNED_INT, 0);
+            glDrawElements(GL_TRIANGLES, meshComponent->indices.size(), GL_UNSIGNED_INT, 0);
 
-        entity->vao->Unbind();
-        entity->vbo->Unbind();
-        entity->ebo->Unbind();
+            entity->vao->Unbind();
+            entity->vbo->Unbind();
+            entity->ebo->Unbind();
+			textureCount++;
+        }
+		
     }
 }
 
@@ -95,6 +102,7 @@ void EntityManager::initalizeMesh(std::shared_ptr<Entity>& entity)
         std::cerr << "Entity does not have a MeshComponent!" << std::endl;
         return;
     }
+	initalizeTexture(entity);
 
     // Binding the VAO
     entity->vao->Bind();
@@ -113,5 +121,17 @@ void EntityManager::initalizeMesh(std::shared_ptr<Entity>& entity)
     entity->vao->Unbind();
     entity->vbo->Unbind();
     entity->ebo->Unbind();
+}
+
+void EntityManager::initalizeTexture(std::shared_ptr<Entity>& entity)
+{
+	MeshComponent* meshComponent = entity->GetComponent<MeshComponent>();
+	if (!meshComponent) {
+		std::cerr << "Entity does not have a MeshComponent!" << std::endl;
+		return;
+	}
+
+	Texture texture(meshComponent->TexturePath, shader);
+	textures.push_back(texture);
 }
 

@@ -3,7 +3,7 @@
 #include <iostream>
 #include <memory>
 
-MeshComponent::MeshComponent(const std::string& figure, const glm::vec3& color, const std::string& texture)
+MeshComponent::MeshComponent(const std::string& figure, const glm::vec3& color, const char* texture)
     : TexturePath(texture)
 {
     std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>();

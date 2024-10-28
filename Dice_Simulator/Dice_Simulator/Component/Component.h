@@ -26,7 +26,7 @@ struct TransformComponent : public Component
 struct MeshComponent : public Component {
     std::vector<Vertex> vertices;
     std::vector<unsigned int> indices;
-    std::string TexturePath;
+    const char* TexturePath;
 
-    MeshComponent(const std::string& figure = "", const glm::vec3& color = glm::vec3(1,1,1), const std::string& texture = "");
+    MeshComponent(const std::string& figure = "", const glm::vec3& color = glm::vec3(1,1,1), const char* texture = "");
 };

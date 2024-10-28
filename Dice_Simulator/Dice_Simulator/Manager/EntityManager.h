@@ -4,15 +4,17 @@
 #include <string>
 #include <memory>
 #include <glm/glm.hpp>
+#include "../Resources/Shaders/shaderClass.h"
 class Shader;
+class Texture; 
 class TransformComponent;
 class EntityManager
 {
 public:
-	EntityManager();
+	EntityManager(std::shared_ptr<Shader> shader);
 	~EntityManager();
 	void Update();
-	void Render(const std::shared_ptr<Shader>& Shader, glm::mat4 viewproj);
+	void Render(glm::mat4 viewproj);
 	void ClearData();
 	bool HasNoEntities();
 	void AddEntity(std::shared_ptr<Entity>& entity);
@@ -21,7 +23,11 @@ public:
 
 private:
 	void initalizeMesh(std::shared_ptr<Entity>& entity);
+	void initalizeTexture(std::shared_ptr<Entity>& entity);
 	std::vector<Entity*> entities;
 	int EntityCount;
+	std::vector<Texture> textures;
+	std::shared_ptr<Shader> shader;	
+
 };
 
