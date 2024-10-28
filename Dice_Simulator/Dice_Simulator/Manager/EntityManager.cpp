@@ -30,40 +30,49 @@ void EntityManager::Update()
 
 void EntityManager::Render(glm::mat4 viewproj)
 {
+    int textureCount = 0;
+    for (auto& entity : entities)
     {
-		int textureCount = 0;
-        for (auto& entity : entities)
-        {
+        auto meshComponent = entity->GetComponent<MeshComponent>();
+        if (meshComponent == nullptr)
+            continue;
+
+        auto transform = entity->GetComponent<TransformComponent>();
+        if (transform == nullptr) continue;
+
+        // Model matrix calculations
+        glm::mat4 model = glm::mat4(1.0f);
+        glm::quat quaternion = glm::quat(transform->rotation);
+        glm::mat4 rotationMatrix = glm::toMat4(quaternion);
+
+        model = glm::translate(model, transform->position);
+        model = glm::scale(model, transform->scale);
+        model *= rotationMatrix;
+
+        glUniformMatrix4fv(glGetUniformLocation(shader->ID, "camMatrix"), 1, GL_FALSE, glm::value_ptr(viewproj * model));
+
+        bool hasTexture = meshComponent->TexturePath != "";
+		glUniform1i(glGetUniformLocation(shader->ID, "useTexture"), hasTexture); // Set useTexture to true if the entity has a texture
+
+        if (hasTexture) {
             glBindTexture(GL_TEXTURE_2D, textures[textureCount].texture);
-            auto meshComponent = entity->GetComponent<MeshComponent>();
-            if (meshComponent == nullptr)
-                continue;
-
-            auto transform = entity->GetComponent<TransformComponent>();
-            if (transform == nullptr) continue;
-
-            glm::mat4 model = glm::mat4(1.0f);
-            glm::quat quaternion = glm::quat(transform->rotation);
-            glm::mat4 rotationMatrix = glm::toMat4(quaternion);
-
-            model = glm::translate(model, transform->position);
-            model = glm::scale(model, transform->scale);
-            model *= rotationMatrix;
-
-            glUniformMatrix4fv(glGetUniformLocation(shader->ID, "camMatrix"), 1, GL_FALSE, glm::value_ptr(viewproj * model));
-
-            entity->vao->Bind();
-            entity->vbo->Bind();
-            entity->ebo->Bind();
-
-            glDrawElements(GL_TRIANGLES, meshComponent->indices.size(), GL_UNSIGNED_INT, 0);
-
-            entity->vao->Unbind();
-            entity->vbo->Unbind();
-            entity->ebo->Unbind();
-			textureCount++;
+            textureCount++;
         }
-		
+        else {
+            glBindTexture(GL_TEXTURE_2D, 0);
+        }
+
+        // Bind VAO, VBO, and EBO for drawing
+        entity->vao->Bind();
+        entity->vbo->Bind();
+        entity->ebo->Bind();
+
+        glDrawElements(GL_TRIANGLES, meshComponent->indices.size(), GL_UNSIGNED_INT, 0);
+
+        // Unbind VAO, VBO, and EBO after drawing
+        entity->vao->Unbind();
+        entity->vbo->Unbind();
+        entity->ebo->Unbind();
     }
 }
 

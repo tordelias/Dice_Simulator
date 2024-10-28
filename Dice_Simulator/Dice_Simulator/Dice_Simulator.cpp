@@ -46,6 +46,11 @@ int main()
     cube1->AddComponent<MeshComponent>("Cube", glm::vec3(1.0f, 1.0f, 1.0f), "Resources/Texture/Textures/jellybeans.jpg");
 	manager->AddEntity(cube1);
 
+	std::shared_ptr<Entity> cube2 = std::make_shared<Entity>();
+	cube2->AddComponent<TransformComponent>(glm::vec3(-2.0f, 0.0f, -5.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
+	cube2->AddComponent<MeshComponent>("Cube", glm::vec3(0.0f, 1.0f, 0.0f), "");
+	manager->AddEntity(cube2);
+
 
     // ---------------------------------------------------------------------- -----------------------------------------------------
     //                                                        Textures
