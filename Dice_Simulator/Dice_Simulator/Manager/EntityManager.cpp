@@ -12,7 +12,6 @@
 #include "../Resources/Texture/Texture.h"
 #include <glm/gtc/type_ptr.hpp>
 #include "../Resources/Texture/Texture.h"
-#include <string>
 #include <vector>
 #include <memory>
 #include "../Resources/Shaders/shaderClass.h"

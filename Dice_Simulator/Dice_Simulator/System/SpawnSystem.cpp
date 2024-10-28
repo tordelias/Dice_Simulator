@@ -71,29 +71,20 @@ void SpawnSystem::SpawnEntity(int x, int y, int z, const char* texturePath, cons
 	offset += offsetAmount;
 }
 
-void SpawnSystem::SpawnEntity(int x, int y, int z, const char* texturePath, const char* meshType, glm::vec3 scale)
+void SpawnSystem::SpawnEntity(int x, int y, int z, const char* texturePath, const char* meshType, float scale)
 {
 	std::shared_ptr<Entity> cube = std::make_shared<Entity>();
-	cube->AddComponent<TransformComponent>(glm::vec3(x, y, z), glm::vec3(0.0f, 0.0f, 0.0f), scale);
-	cube->AddComponent<MeshComponent>(meshType, scale, texturePath);
+	cube->AddComponent<TransformComponent>(glm::vec3(x, y, z), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(scale));
+	cube->AddComponent<MeshComponent>(meshType, glm::vec3(1, 1, 1), texturePath);
 	manager->AddEntity(cube);
 	offset += offsetAmount;
 }
 
-void SpawnSystem::SpawnEntity(int x, int y, int z, const char* texturePath, const char* meshType, glm::vec3 scale, glm::vec3 rotation)
+void SpawnSystem::SpawnEntity(int x, int y, int z, const char* texturePath, const char* meshType, float scale, glm::vec3 rotation)
 {
 	std::shared_ptr<Entity> cube = std::make_shared<Entity>();
-	cube->AddComponent<TransformComponent>(glm::vec3(x, y, z), rotation, scale);
-	cube->AddComponent<MeshComponent>(meshType, scale, texturePath);
-	manager->AddEntity(cube);
-	offset += offsetAmount;
-}
-
-void SpawnSystem::SpawnEntity(int x, int y, int z, const char* texturePath, const char* meshType, glm::vec3 scale, glm::vec3 rotation, glm::vec3 position)
-{
-	std::shared_ptr<Entity> cube = std::make_shared<Entity>();
-	cube->AddComponent<TransformComponent>(position, rotation, scale);
-	cube->AddComponent<MeshComponent>(meshType, scale, texturePath);
+	cube->AddComponent<TransformComponent>(glm::vec3(x, y, z), rotation, glm::vec3(scale));
+	cube->AddComponent<MeshComponent>(meshType, glm::vec3(1,1,1), texturePath);
 	manager->AddEntity(cube);
 	offset += offsetAmount;
 }

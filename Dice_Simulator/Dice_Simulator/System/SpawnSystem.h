@@ -16,14 +16,13 @@ public:
 	void SpawnEntity(int x, int y, int z);
 	void SpawnEntity(int x, int y, int z, const char* texturePath);
 	void SpawnEntity(int x, int y, int z, const char* texturePath, const char* meshType);
-	void SpawnEntity(int x, int y, int z, const char* texturePath, const char* meshType, glm::vec3 scale);
-	void SpawnEntity(int x, int y, int z, const char* texturePath, const char* meshType, glm::vec3 scale, glm::vec3 rotation);
-	void SpawnEntity(int x, int y, int z, const char* texturePath, const char* meshType, glm::vec3 scale, glm::vec3 rotation, glm::vec3 position);
+	void SpawnEntity(int x, int y, int z, const char* texturePath, const char* meshType, float scale);
+	void SpawnEntity(int x, int y, int z, const char* texturePath, const char* meshType, float scale, glm::vec3 rotation);
 
 private:
 	void deletelastEntity();
 	std::shared_ptr<EntityManager> manager;
-	int offset = 0;
+	int offset = -8;
 	int offsetAmount = 2;
 	bool spacePressedLastFrame = false;
 	bool FPressedLastFrame = false;

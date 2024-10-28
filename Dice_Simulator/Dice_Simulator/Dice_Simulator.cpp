@@ -39,20 +39,10 @@ int main()
 	std::shared_ptr<EntityManager> manager = std::make_shared<EntityManager>(shaderProgram);
 	std::shared_ptr<SpawnSystem> spawnSystem = std::make_shared<SpawnSystem>(manager);
 
-	std::shared_ptr<Entity> cube0 = std::make_shared<Entity>();
-    cube0->AddComponent<TransformComponent>(glm::vec3(0.0f, 0.0f, -10.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
-    cube0->AddComponent<MeshComponent>("Cube", glm::vec3(1.0f, 1.0f, 1.0f), "Resources/Texture/Textures/beako.png");
-	manager->AddEntity(cube0);
-
-	std::shared_ptr<Entity> cube1 = std::make_shared<Entity>();
-    cube1->AddComponent<TransformComponent>(glm::vec3(2.0f, 0.0f, -10.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
-    cube1->AddComponent<MeshComponent>("Cube", glm::vec3(1.0f, 1.0f, 1.0f), "Resources/Texture/Textures/beako.png");
-	manager->AddEntity(cube1);
-
-	std::shared_ptr<Entity> cube2 = std::make_shared<Entity>();
-	cube2->AddComponent<TransformComponent>(glm::vec3(-2.0f, 0.0f, -10.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
-	cube2->AddComponent<MeshComponent>("Cube", glm::vec3(0.0f, 1.0f, 0.0f), "");
-	manager->AddEntity(cube2);
+    spawnSystem->SpawnEntity(0, 0, 0, "Resources/Texture/Textures/skybox.jpg", "Cube", 1000.0f);
+    spawnSystem->SpawnEntity(0, 0, -10, "Resources/Texture/Textures/beako.png");
+	spawnSystem->SpawnEntity(2, 0, -10, "Resources/Texture/Textures/beako.png");
+	spawnSystem->SpawnEntity(-2, 0, -10, "");
 
 
     // ---------------------------------------------------------------------- -----------------------------------------------------
