@@ -1,13 +1,12 @@
 #pragma once
-#include <memory>
-#include <iostream>
-#include "Resources/Shaders/EBO.h"
-#include "Resources/Shaders/VBO.h"
-#include "Resources/Shaders/VAO.h"
-#include "Component/Component.h"
 #include <unordered_map>
+#include <memory>
 #include <typeindex>
 
+class VAO;
+class VBO;
+class EBO;
+class Component;
 class Entity
 {
     int EntityID;

@@ -57,6 +57,9 @@
     <ClCompile Include="Resources\Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="System\SpawnSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component\Mesh.h">
@@ -92,10 +95,11 @@
     <ClInclude Include="Resources\Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="System\SpawnSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="default.frag" />
-    <None Include="default.vert" />
     <None Include="Resources\Shaders\default.frag" />
     <None Include="Resources\Shaders\default.vert" />
   </ItemGroup>

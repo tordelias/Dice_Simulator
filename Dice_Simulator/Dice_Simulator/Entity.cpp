@@ -1,9 +1,14 @@
+#pragma once
 #include "Entity.h"
 #define GLM_ENABLE_EXPERIMENTAL
 #include "Component/Component.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/quaternion.hpp>
+#include "Resources/Shaders/EBO.h"
+#include "Resources/Shaders/VBO.h"
+#include "Resources/Shaders/VAO.h";
+#include <iostream>
 
 
 Entity::Entity() : vao(std::make_shared<VAO>()), vbo(std::make_shared<VBO>()), ebo(std::make_shared<EBO>()), EntityID(0), components()

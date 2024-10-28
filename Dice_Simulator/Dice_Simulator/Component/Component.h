@@ -1,8 +1,5 @@
 #pragma once
 #include <glm/glm.hpp>
-#include <vector>
-#include <string>
-#include <iostream>
 #include "Mesh.h"
 
 class Component
@@ -28,5 +25,5 @@ struct MeshComponent : public Component {
     std::vector<unsigned int> indices;
     const char* TexturePath;
 
-    MeshComponent(const std::string& figure = "", const glm::vec3& color = glm::vec3(1,1,1), const char* texture = "");
+    MeshComponent(const char* figure = "", const glm::vec3& color = glm::vec3(1,1,1), const char* texture = "");
 };

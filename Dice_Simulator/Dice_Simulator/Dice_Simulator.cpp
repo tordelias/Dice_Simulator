@@ -11,6 +11,7 @@
 //includes
 #include "Manager/EntityManager.h"
 #include "Entity.h" 
+#include "Component/Component.h"
 
 void processInput(GLFWwindow* window);
 

@@ -1,10 +1,6 @@
 #pragma once
-#include <vector>
 #include "../Entity.h"
-#include <string>
-#include <memory>
 #include <glm/glm.hpp>
-#include "../Resources/Shaders/shaderClass.h"
 class Shader;
 class Texture; 
 class TransformComponent;

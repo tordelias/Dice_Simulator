@@ -1,9 +1,10 @@
+#pragma once
 #include "Component.h"
-#include "Mesh.h"
-#include <iostream>
 #include <memory>
+#include <iostream>
+#include <vector>
 
-MeshComponent::MeshComponent(const std::string& figure, const glm::vec3& color, const char* texture)
+MeshComponent::MeshComponent(const char* figure, const glm::vec3& color, const char* texture)
     : TexturePath(texture)
 {
     std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>();
