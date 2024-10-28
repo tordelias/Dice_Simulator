@@ -12,6 +12,7 @@
 #include "Manager/EntityManager.h"
 #include "Entity.h" 
 #include "Component/Component.h"
+#include "System/SpawnSystem.h"
 
 void processInput(GLFWwindow* window);
 
@@ -36,19 +37,20 @@ int main()
 	//                                                        Initialize bellow
     // ---------------------------------------------------------------------------------------------------------------------------
 	std::shared_ptr<EntityManager> manager = std::make_shared<EntityManager>(shaderProgram);
+	std::shared_ptr<SpawnSystem> spawnSystem = std::make_shared<SpawnSystem>(manager);
 
 	std::shared_ptr<Entity> cube0 = std::make_shared<Entity>();
-    cube0->AddComponent<TransformComponent>(glm::vec3(0.0f, 0.0f, -5.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
+    cube0->AddComponent<TransformComponent>(glm::vec3(0.0f, 0.0f, -10.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
     cube0->AddComponent<MeshComponent>("Cube", glm::vec3(1.0f, 1.0f, 1.0f), "Resources/Texture/Textures/beako.png");
 	manager->AddEntity(cube0);
 
 	std::shared_ptr<Entity> cube1 = std::make_shared<Entity>();
-    cube1->AddComponent<TransformComponent>(glm::vec3(2.0f, 0.0f, -5.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
+    cube1->AddComponent<TransformComponent>(glm::vec3(2.0f, 0.0f, -10.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
     cube1->AddComponent<MeshComponent>("Cube", glm::vec3(1.0f, 1.0f, 1.0f), "Resources/Texture/Textures/jellybeans.jpg");
 	manager->AddEntity(cube1);
 
 	std::shared_ptr<Entity> cube2 = std::make_shared<Entity>();
-	cube2->AddComponent<TransformComponent>(glm::vec3(-2.0f, 0.0f, -5.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
+	cube2->AddComponent<TransformComponent>(glm::vec3(-2.0f, 0.0f, -10.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
 	cube2->AddComponent<MeshComponent>("Cube", glm::vec3(0.0f, 1.0f, 0.0f), "");
 	manager->AddEntity(cube2);
 
@@ -72,7 +74,7 @@ int main()
         glm::mat4 viewproj = camera->Matrix(45.0f, 0.1f, 1000.0f, *shaderProgram, "camMatrix");        //Set render distance and FOV
     // ---------------------------------------------------------------------------------------------------------------------------
        
-        //glBindTexture(GL_TEXTURE_2D, texture.texture);
+		spawnSystem->input(window.GetWindow());
 		manager->Render(viewproj);
 
 

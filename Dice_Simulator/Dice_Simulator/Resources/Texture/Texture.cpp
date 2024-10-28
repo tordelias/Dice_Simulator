@@ -33,7 +33,7 @@ Texture::Texture(const char* texture1, const std::shared_ptr<Shader>& shaderProg
     }
     else
     {
-        std::cout << "Failed to load texture" << std::endl;
+        //std::cout << "Failed to load texture" << std::endl;
     }
     stbi_image_free(data);
 

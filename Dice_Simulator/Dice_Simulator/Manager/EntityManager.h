@@ -14,15 +14,16 @@ public:
 	void ClearData();
 	bool HasNoEntities();
 	void AddEntity(std::shared_ptr<Entity>& entity);
-	std::vector<Entity*> GetEntities() const;
+	std::vector<std::shared_ptr<Entity>> GetEntities() const;
 	unsigned int GetEntityCount() { return EntityCount; };
+	void RemoveLastEntity();
 
 private:
 	void initalizeMesh(std::shared_ptr<Entity>& entity);
 	void initalizeTexture(std::shared_ptr<Entity>& entity);
-	std::vector<Entity*> entities;
+	std::vector<std::shared_ptr<Entity>> entities;
 	int EntityCount;
-	std::vector<Texture> textures;
+	std::vector<std::shared_ptr<Texture>> textures;
 	std::shared_ptr<Shader> shader;	
 
 };

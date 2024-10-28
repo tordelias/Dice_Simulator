@@ -19,9 +19,8 @@
 
 
 
-EntityManager::EntityManager(std::shared_ptr<Shader> shaderprogram) : EntityCount(0)
+EntityManager::EntityManager(std::shared_ptr<Shader> shaderprogram) : EntityCount(0), shader(shaderprogram)
 {
-	shader = shaderprogram;
 }
 
 EntityManager::~EntityManager()
@@ -60,7 +59,7 @@ void EntityManager::Render(glm::mat4 viewproj)
 		glUniform1i(glGetUniformLocation(shader->ID, "useTexture"), hasTexture); // Set useTexture to true if the entity has a texture
 
         if (hasTexture) {
-            glBindTexture(GL_TEXTURE_2D, textures[textureCount].texture);
+            glBindTexture(GL_TEXTURE_2D, textures[textureCount]->texture);
             textureCount++;
         }
         else {
@@ -101,12 +100,29 @@ void EntityManager::AddEntity(std::shared_ptr<Entity>& entity)
     }
     entity->SetEntityID(EntityCount);
     ++EntityCount;
-	entities.push_back(entity.get());
+	entities.push_back(entity); //use smart pointers spawnsystem breakes here!
 }
 
-std::vector<Entity*> EntityManager::GetEntities() const
+std::vector<std::shared_ptr<Entity>> EntityManager::GetEntities() const
 {
     return entities;
+}
+
+void EntityManager::RemoveLastEntity()
+{
+	if (EntityCount > 0)
+	{
+		if (entities.back()->GetComponent<MeshComponent>() != nullptr && entities.back()->GetComponent<MeshComponent>()->TexturePath != "")
+		{
+			entities.pop_back();
+		}
+        textures.pop_back();
+        --EntityCount;
+	}
+	else
+	{
+		std::cerr << "No entities to remove!" << std::endl;
+	}
 }
 
 void EntityManager::initalizeMesh(std::shared_ptr<Entity>& entity)
@@ -145,7 +161,8 @@ void EntityManager::initalizeTexture(std::shared_ptr<Entity>& entity)
 		return;
 	}
 
-	Texture texture(meshComponent->TexturePath, shader);
+	//std::shared_ptr<Texture> texture(meshComponent->TexturePath, shader);
+    std::shared_ptr<Texture> texture = std::make_shared<Texture>(meshComponent->TexturePath, shader);
 	textures.push_back(texture);
 }
 
