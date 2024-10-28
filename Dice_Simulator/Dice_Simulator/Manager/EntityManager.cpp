@@ -114,9 +114,9 @@ void EntityManager::RemoveLastEntity()
 	{
 		if (entities.back()->GetComponent<MeshComponent>() != nullptr && entities.back()->GetComponent<MeshComponent>()->TexturePath != "")
 		{
-			entities.pop_back();
+            textures.pop_back();
 		}
-        textures.pop_back();
+        entities.pop_back();
         --EntityCount;
 	}
 	else

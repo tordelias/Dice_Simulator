@@ -29,6 +29,7 @@ void SpawnSystem::input(GLFWwindow* window)
 	if (isFPressed && !FPressedLastFrame)
 	{
 		deletelastEntity();
+
 	}
 	FPressedLastFrame = isFPressed;
 }
