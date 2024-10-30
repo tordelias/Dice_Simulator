@@ -26,6 +26,7 @@ private:
 	int offsetAmount = 2;
 	bool spacePressedLastFrame = false;
 	bool FPressedLastFrame = false;
+	bool blaunchDiece = false;
 };
 
 

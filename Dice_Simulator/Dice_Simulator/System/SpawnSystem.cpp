@@ -32,6 +32,16 @@ void SpawnSystem::input(GLFWwindow* window)
 
 	}
 	FPressedLastFrame = isFPressed;
+
+	if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS && !blaunchDiece)
+	{
+		manager->lauchDice();
+		blaunchDiece = true;
+	}
+	else if (glfwGetKey(window, GLFW_KEY_L) == GLFW_RELEASE)
+	{
+		blaunchDiece = false;
+	}
 }
 
 void SpawnSystem::SpawnEntity()

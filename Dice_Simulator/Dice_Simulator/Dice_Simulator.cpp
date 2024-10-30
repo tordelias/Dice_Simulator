@@ -39,23 +39,29 @@ int main()
 	std::shared_ptr<EntityManager> manager = std::make_shared<EntityManager>(shaderProgram);
 	std::shared_ptr<SpawnSystem> spawnSystem = std::make_shared<SpawnSystem>(manager);
 
-    spawnSystem->SpawnEntity(0, 0, 0, "Resources/Texture/Textures/skybox.jpg", "Cube", 1000.0f);
-    spawnSystem->SpawnEntity(0, 0, -10, "Resources/Texture/Textures/beako.png");
+  //  spawnSystem->SpawnEntity(0, 0, 0, "Resources/Texture/Textures/skybox.jpg", "Cube", 1000.0f);
+    spawnSystem->SpawnEntity(0, 5, -10, "Resources/Texture/Textures/beako.png");
 	spawnSystem->SpawnEntity(2, 0, -10, "Resources/Texture/Textures/beako.png");
 	spawnSystem->SpawnEntity(-2, 0, -10, "");
 
 
     // ---------------------------------------------------------------------- -----------------------------------------------------
-    //                                                        Textures
+    //                                                        other
     // ---------------------------------------------------------------------------------------------------------------------------
 
     glEnable(GL_DEPTH_TEST);
+    double lastTime = glfwGetTime();  // Initialize lastTime to current time
+    float deltaTime;
+    double currentTime;
 
     // ---------------------------------------------------------------------------------------------------------------------------
     //                                                        Main Loop
     // ---------------------------------------------------------------------------------------------------------------------------
     while (!glfwWindowShouldClose(window.GetWindow()))
     {
+         currentTime = glfwGetTime();   // Get the current time
+        deltaTime = static_cast<float>(currentTime - lastTime); // Calculate deltaTime
+        lastTime = currentTime;
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -65,7 +71,7 @@ int main()
     // ---------------------------------------------------------------------------------------------------------------------------
        
 		spawnSystem->input(window.GetWindow());
-		manager->Render(viewproj);
+		manager->Render(viewproj, deltaTime);
 
 
 

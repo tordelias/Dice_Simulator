@@ -151,6 +151,7 @@
     <ClCompile Include="Resources\Shaders\VBO.cpp" />
     <ClCompile Include="Resources\Texture\Texture.cpp" />
     <ClCompile Include="Resources\Window.cpp" />
+    <ClCompile Include="System\RigidBody.cpp" />
     <ClCompile Include="System\SpawnSystem.cpp" />
     <ClCompile Include="stb.cpp" />
   </ItemGroup>
@@ -166,6 +167,7 @@
     <ClInclude Include="Resources\Shaders\VBO.h" />
     <ClInclude Include="Resources\Texture\Texture.h" />
     <ClInclude Include="Resources\Window.h" />
+    <ClInclude Include="System\RigidBody.h" />
     <ClInclude Include="System\SpawnSystem.h" />
   </ItemGroup>
   <ItemGroup>

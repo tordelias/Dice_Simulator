@@ -15,10 +15,11 @@
 #include <vector>
 #include <memory>
 #include "../Resources/Shaders/shaderClass.h"
+#include "../System/RigidBody.h"
 
 
 
-EntityManager::EntityManager(std::shared_ptr<Shader> shaderprogram) : EntityCount(0), shader(shaderprogram)
+EntityManager::EntityManager(std::shared_ptr<Shader> shaderprogram) : EntityCount(0), shader(shaderprogram), rigidbody(std::make_shared<RigidBody>())
 {
 }
 
@@ -31,8 +32,9 @@ void EntityManager::Update()
 }
 
 
-void EntityManager::Render(glm::mat4 viewproj)
+void EntityManager::Render(glm::mat4 viewproj, float dt)
 {
+	rigidbody->Update(entities, dt);
     int textureCount = 0;
     for (auto& entity : entities)
     {
@@ -122,6 +124,11 @@ void EntityManager::RemoveLastEntity()
 	{
 		std::cerr << "No entities to remove!" << std::endl;
 	}
+}
+
+void EntityManager::lauchDice()
+{
+	rigidbody->applyRandomForce(entities);
 }
 
 void EntityManager::initalizeMesh(std::shared_ptr<Entity>& entity)
