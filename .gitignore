@@ -43,6 +43,7 @@ bld/
 *.dll
 *.lib
 !glfw3.lib
+!assimp-vc143-mt.lib
 *.ncb
 *.sdf
 *.ipch
