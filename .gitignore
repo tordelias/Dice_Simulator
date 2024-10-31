@@ -41,6 +41,7 @@ bld/
 *.ilk
 *.idb
 *.dll
+!assimp-vc143-mt.dll
 *.lib
 !glfw3.lib
 !assimp-vc143-mt.lib
