@@ -16,8 +16,8 @@
 
 void processInput(GLFWwindow* window);
 
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 800;
+const unsigned int SCR_WIDTH = 1920;
+const unsigned int SCR_HEIGHT = 1080;
 
 int main()
 {
@@ -40,9 +40,9 @@ int main()
 	std::shared_ptr<SpawnSystem> spawnSystem = std::make_shared<SpawnSystem>(manager);
 
   //  spawnSystem->SpawnEntity(0, 0, 0, "Resources/Texture/Textures/skybox.jpg", "Cube", 1000.0f);
-    spawnSystem->SpawnEntity(0, 5, -10, "Resources/Texture/Textures/beako.png");
-	spawnSystem->SpawnEntity(2, 0, -10, "Resources/Texture/Textures/beako.png");
-	spawnSystem->SpawnEntity(-2, 0, -10, "");
+ //   spawnSystem->SpawnEntity(0, 0, -10, "Resources/Texture/Textures/beako.png");
+	//spawnSystem->SpawnEntity(2, 0, -10, "Resources/Texture/Textures/beako.png");
+	//spawnSystem->SpawnEntity(-2, 0, -10, "");
 
 
     // ---------------------------------------------------------------------- -----------------------------------------------------

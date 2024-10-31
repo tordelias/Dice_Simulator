@@ -44,9 +44,9 @@ void RigidBody::applyAngularForce(glm::vec3 force, glm::vec3 pointOfImpact, std:
     }
 }
 
-void RigidBody::applyGravity(std::shared_ptr<Entity> entity)
+void RigidBody::applyGravity(std::shared_ptr<Entity> entity, float deltaTime)
 {
-    applyForce(glm::vec3(0, -mass * gravity, 0), entity);
+    applyForce(glm::vec3(0, -mass * gravity * deltaTime, 0), entity);
 }
 
 void RigidBody::applyRandomForce(std::vector<std::shared_ptr<Entity>> entities)
@@ -55,10 +55,10 @@ void RigidBody::applyRandomForce(std::vector<std::shared_ptr<Entity>> entities)
     {
         std::random_device rd;
         std::mt19937 gen(rd());
-        std::uniform_real_distribution<float> dis(100.0f, 200.0f); // Adjusted to ensure significant forces
+        //std::uniform_real_distribution<float> dis(50.0f, 100.0f); // Adjusted to ensure significant forces
         std::uniform_real_distribution<float> dis1(10.0f, 30.0f); // Adjusted to ensure significant forces
 
-        glm::vec3 randomForce = glm::vec3(0, dis(gen), 0); // Random upward force
+        glm::vec3 randomForce = glm::vec3(0, dis1(gen), 0); // Random upward force
         glm::vec3 randomAngularForce = glm::vec3(dis1(gen), dis1(gen), dis1(gen)); // Random angular force
 
         // Apply forces
@@ -75,8 +75,8 @@ void RigidBody::applyRandomForce(std::vector<std::shared_ptr<Entity>> entities)
 void RigidBody::Update(std::vector<std::shared_ptr<Entity>> entities, float deltaTime)
 {
     for (auto& entity : entities) {
-        applyGravity(entity);
-        normalForceGround(entity);
+        applyGravity(entity, deltaTime);
+        normalForceGround(entity, deltaTime);
 
         auto transform = entity->GetComponent<TransformComponent>();
 
@@ -90,39 +90,66 @@ void RigidBody::Update(std::vector<std::shared_ptr<Entity>> entities, float delt
     }
 }
 
-void RigidBody::normalForceGround(std::shared_ptr<Entity> entity)
+void RigidBody::normalForceGround(std::shared_ptr<Entity> entity, float deltaTime)
 {
-    applyForce(CalculateNormalForce(entity), entity);
+    applyForce(CalculateNormalForce(entity), deltaTime, entity);
 }
 
-glm::vec3 RigidBody::CalculateNormalForce(std::shared_ptr<Entity> entity)
-{
+
+glm::vec3 RigidBody::CalculateNormalForce(std::shared_ptr<Entity> entity) {
     glm::vec3 normalForce = glm::vec3(0, 0, 0);
     float gravitationalForce = mass * gravity;
+
+    // Define the bounce parameters
+    const float bounceThreshold = 0.5f;  // Minimum velocity to trigger bounce
+    const float stopBounceThreshold = 0.1f; // Threshold below which we stop bouncing
+    const float dampingFactor = 0.8f;  // Exponential decay factor for each bounce (0 < damping < 1)
 
     if (auto transform = entity->GetComponent<TransformComponent>()) {
         // Check if the object is at or below ground level (y <= 0)
         if (transform->position.y <= 0) {
-            float impactForce = (mass * abs(transform->velocity.y)); // Use velocity without deltaTime
+            // Clamp the object's position to prevent it from going below ground level
+            transform->position.y = 0.0f;
 
-            // Total normal force at impact (gravity + impact deceleration)
-            normalForce.y = gravitationalForce + impactForce;
+            float impactVelocity = abs(transform->velocity.y);
 
-            // Apply torque for rotation at point of impact
-            glm::vec3 pointOfImpact = transform->position + glm::vec3(0, 1, 0); // Adjusted to apply torque above the center
-            applyAngularForce(glm::vec3(0, impactForce, 0), pointOfImpact, entity);
+            if (impactVelocity > bounceThreshold) {
+                // Exponential sinusoidal bounce
+                float impactForce = mass * impactVelocity * dampingFactor; // Reduce force using damping factor
+                normalForce.y = gravitationalForce + impactForce * sin(impactVelocity);
+
+                // Apply torque for rotation at point of impact
+                glm::vec3 pointOfImpact = transform->position + glm::vec3(0, 1, 0);
+                applyAngularForce(glm::vec3(0, impactForce, 0), pointOfImpact, entity);
+
+                // Reduce vertical velocity for the next bounce using damping
+                transform->velocity.y *= -dampingFactor;
+            }
+            else if (impactVelocity > stopBounceThreshold) {
+                // Apply only gravity to counter minor bounces without further sinusoidal effect
+                normalForce.y = gravitationalForce;
+            }
+            else {
+                // When velocity is minimal, stop bouncing entirely by setting velocity to zero
+                normalForce.y = gravitationalForce;
+                transform->velocity.y = 0.0f; // Stop small residual vertical motion
+            }
 
             // Apply angular damping to reduce rotation gradually
-            float angularDampingFactor = 0.95f; // Adjust this value as needed (0 < factor < 1)
-            transform->angularVelocity *= angularDampingFactor; // Reduce angular velocity by damping factor
+            float angularDampingFactor = 0.95f;
+            transform->angularVelocity *= angularDampingFactor;
 
             // Check if angular velocity is effectively zero
-            if (glm::length(transform->angularVelocity) < 0.01f) { // Use glm::length to check overall angular velocity
-                transform->angularVelocity = glm::vec3(0.0f); // Optionally set to zero if under threshold
+            if (glm::length(transform->angularVelocity) < 0.01f) {
+                transform->angularVelocity = glm::vec3(0.0f);
             }
         }
     }
 
     return normalForce;
 }
+
+
+
+
 

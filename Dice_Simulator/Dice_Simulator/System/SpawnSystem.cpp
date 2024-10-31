@@ -6,6 +6,7 @@
 #include <glm/glm.hpp>
 #include <GLFW/glfw3.h>
 #include <memory>
+#include <random>
 
 
 SpawnSystem::SpawnSystem(std::shared_ptr<EntityManager> entityManager) : manager(entityManager)
@@ -54,14 +55,32 @@ void SpawnSystem::SpawnEntity()
 
 }
 
+#include <random> // Include for random number generation
+
 void SpawnSystem::SpawnEntity(int x, int y, int z)
 {
+	// Set up random number generation for color
+	static std::random_device rd;
+	static std::mt19937 gen(rd());
+	static std::uniform_real_distribution<> dis(0.0, 1.0);
+
+	// Generate random color values
+	float r = dis(gen);
+	float g = dis(gen);
+	float b = dis(gen);
+
+	// Create the entity and components
 	std::shared_ptr<Entity> cube = std::make_shared<Entity>();
 	cube->AddComponent<TransformComponent>(glm::vec3(x, y, z), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
-	cube->AddComponent<MeshComponent>("Cube", glm::vec3(1.0f, 1.0f, 1.0f), "");
+
+	// Set random color for the MeshComponent
+	cube->AddComponent<MeshComponent>("Cube", glm::vec3(r, g, b), "");
+
+	// Add entity to the manager
 	manager->AddEntity(cube);
 	offset += offsetAmount;
 }
+
 
 void SpawnSystem::SpawnEntity(int x, int y, int z, const char* texturePath)
 {
