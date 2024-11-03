@@ -2,7 +2,10 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include  <string>
+#include <memory>
+#include <glm/glm.hpp>
 
+class Camera;
 class Window
 {
 public:
@@ -15,6 +18,8 @@ public:
 	};
 
 	void CreateWindow(int width, int height, const char* title);
+	void ResizeWindow(int width, int height, std::shared_ptr<Camera> camera);
+	glm::vec2 GetWindowSize();
 
 	static void framebuffer_size_callback(GLFWwindow* window, int width, int height);  // Dynamic window size
 

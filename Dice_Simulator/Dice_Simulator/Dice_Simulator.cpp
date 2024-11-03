@@ -14,10 +14,11 @@
 #include "Component/Component.h"
 #include "System/SpawnSystem.h"
 
-void processInput(GLFWwindow* window);
+void processInput(Window window, std::shared_ptr<Camera> camera);
 
 const unsigned int SCR_WIDTH = 1920;
 const unsigned int SCR_HEIGHT = 1080;
+bool bPPressed = false;
 
 int main()
 {
@@ -65,8 +66,9 @@ int main()
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        processInput(window.GetWindow());
+        processInput(window, camera);
         camera->Inputs(window.GetWindow());
+		camera->UpdateWindow(window.GetWindowSize().x, window.GetWindowSize().y);
         glm::mat4 viewproj = camera->Matrix(45.0f, 0.1f, 1000.0f, *shaderProgram, "camMatrix");        //Set render distance and FOV
     // ---------------------------------------------------------------------------------------------------------------------------
        
@@ -85,8 +87,17 @@ int main()
     return 0;
 }
 
-void processInput(GLFWwindow* window)
+void processInput(Window window, std::shared_ptr<Camera> camera)
 {
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
+    if (glfwGetKey(window.GetWindow(), GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(window.GetWindow(), true);
+	if (glfwGetKey(window.GetWindow(), GLFW_KEY_P) == GLFW_PRESS && !bPPressed)
+	{
+		bPPressed = true;
+		window.ResizeWindow(400, 800, camera);
+	} 
+    else if (glfwGetKey(window.GetWindow(), GLFW_KEY_P) == GLFW_RELEASE)
+	{
+		bPPressed = false;
+    }
 }
