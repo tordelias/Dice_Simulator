@@ -23,17 +23,16 @@ bool bPPressed = false;
 int main()
 {
 	// ---------------------------------------------------------------------------------------------------------------------------
-	//                                                        Window
+	//                                                        Window & Camera & Shader
 	// ---------------------------------------------------------------------------------------------------------------------------
 	Window window;
-	window.CreateWindow(SCR_WIDTH, SCR_HEIGHT, "Dice Simulator");
 
-    // ---------------------------------------------------------------------------------------------------------------------------
-    //                                                        Camera & Shader
-    // ---------------------------------------------------------------------------------------------------------------------------
+    std::shared_ptr<Camera> camera = std::make_shared<Camera>(SCR_WIDTH, SCR_HEIGHT, glm::vec3(0.0f, 2.0f, 0.0f));
+	window.CreateWindow(SCR_WIDTH, SCR_HEIGHT, "Dice Simulator", camera);
+
     std::shared_ptr<Shader> shaderProgram = std::make_shared<Shader>("Resources/Shaders/default.vert", "Resources/Shaders/default.frag");
     shaderProgram->Activate();
-    std::shared_ptr<Camera> camera = std::make_shared<Camera>(SCR_WIDTH, SCR_HEIGHT, glm::vec3(0.0f, 2.0f, 0.0f));
+
     // ---------------------------------------------------------------------------------------------------------------------------
 	//                                                        Initialize bellow
     // ---------------------------------------------------------------------------------------------------------------------------
@@ -68,7 +67,6 @@ int main()
 
         processInput(window, camera);
         camera->Inputs(window.GetWindow());
-		camera->UpdateWindow(window.GetWindowSize().x, window.GetWindowSize().y);
         glm::mat4 viewproj = camera->Matrix(45.0f, 0.1f, 1000.0f, *shaderProgram, "camMatrix");        //Set render distance and FOV
     // ---------------------------------------------------------------------------------------------------------------------------
        
@@ -94,7 +92,7 @@ void processInput(Window window, std::shared_ptr<Camera> camera)
 	if (glfwGetKey(window.GetWindow(), GLFW_KEY_P) == GLFW_PRESS && !bPPressed)
 	{
 		bPPressed = true;
-		window.ResizeWindow(400, 800, camera);
+		window.ResizeWindow(400, 800);
 	} 
     else if (glfwGetKey(window.GetWindow(), GLFW_KEY_P) == GLFW_RELEASE)
 	{

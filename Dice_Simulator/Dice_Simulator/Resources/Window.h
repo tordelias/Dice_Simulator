@@ -17,8 +17,8 @@ public:
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	};
 
-	void CreateWindow(int width, int height, const char* title);
-	void ResizeWindow(int width, int height, std::shared_ptr<Camera> camera);
+	void CreateWindow(int width, int height, const char* title, std::shared_ptr<Camera>& mainCam);
+	void ResizeWindow(int width, int height);
 	glm::vec2 GetWindowSize();
 
 	static void framebuffer_size_callback(GLFWwindow* window, int width, int height);  // Dynamic window size
@@ -26,5 +26,6 @@ public:
 	GLFWwindow* GetWindow() { return window; }
 private:
 	GLFWwindow* window;
+	std::shared_ptr<Camera> camera;
 };
 
